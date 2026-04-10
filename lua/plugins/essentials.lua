@@ -11,54 +11,6 @@ return {
         end
     },
 
-    -- 补全引擎 (nvim-cmp)
-    {'hrsh7th/nvim-cmp',
-        dependencies = {
-            'hrsh7th/cmp-nvim-lsp',         -- LSP 补全源
-            'hrsh7th/cmp-buffer',           -- Buffer 补全源
-            'hrsh7th/cmp-path',             -- 路径补全源
-            'L3MON4D3/LuaSnip',             -- Snippet 引擎
-            'saadparwaiz1/cmp_luasnip',     -- Snippet 补全源
-        },
-        config = function()
-            local cmp = require('cmp')
-            local luasnip = require('luasnip')
-            local has_words_before = function()
-
-            end -- 省略函数体，用于 Tab 键判断
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                    ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- 确认选中项
-                    ['<Tab>'] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        elseif luasnip.expand_or_jumpable() then
-                            luasnip.expand_or_jump()
-                        elseif has_words_before() then
-                            cmp.complete()
-                        else
-                            fallback()
-                        end
-                    end, { 'i', 's' }),
-                }),
-                sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                    { name = 'luasnip' },
-                    { name = 'buffer' },
-                    { name = 'path' },
-                })
-            })
-        end
-    },
     
     -- 括号引号自动补全
     {'windwp/nvim-autopairs',
@@ -67,10 +19,6 @@ return {
             require('nvim-autopairs').setup({
                 check_ts = true, -- 使用 treesitter 判断上下文，避免在注释/字符串内误触发
             })
-            -- 与 nvim-cmp 集成：确认补全时自动补全括号
-            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-            local cmp = require('cmp')
-            cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
         end
     },
 

@@ -74,6 +74,9 @@ return {
                 }
             })
 
+            -- LSP 默认 capabilities
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+
             -- 使用 Mason 来设置 LSP 服务器
             mason_lspconfig.setup {
                 ensure_installed = { "gopls", "clangd", "lua_ls" },
@@ -82,7 +85,7 @@ return {
                     function (server_name)
                         lspconfig[server_name].setup {
                             on_attach = on_attach,
-                            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+                            capabilities = capabilities,
                             settings = {} -- 服务器特定设置
                         }
                     end,
@@ -91,7 +94,7 @@ return {
                     ["gopls"] = function()
                         lspconfig.gopls.setup {
                             on_attach = on_attach,
-                            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+                            capabilities = capabilities,
                             -- 优先查找 go.work，再回退到 go.mod，确保多模块项目正常工作
                             root_dir = require('lspconfig.util').root_pattern("go.work", "go.mod", ".git"),
                             -- 使用系统已安装的gopls，避免mason网络问题
@@ -110,7 +113,7 @@ return {
                     ["clangd"] = function()
                         lspconfig.clangd.setup {
                             on_attach = on_attach,
-                            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+                            capabilities = capabilities,
                             cmd = {
                                 "clangd",
                                 "--header-insertion=iwyu", -- 改进头文件插入
