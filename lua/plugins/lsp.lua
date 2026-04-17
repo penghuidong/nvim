@@ -63,7 +63,7 @@ return {
                 end,
             })
             
-            -- 安装 LSP 服务器
+             -- 安装 LSP 服务器
             require('mason').setup({
                 ui = {
                     icons = {
@@ -79,7 +79,7 @@ return {
 
             -- 使用 Mason 来设置 LSP 服务器
             mason_lspconfig.setup {
-                ensure_installed = { "gopls", "clangd", "lua_ls" },
+                ensure_installed = { "gopls", "clangd", "lua_ls", "vtsls", "eslint" },
                 -- 默认配置所有通过 Mason 安装的 LSP
                 handlers = {
                     function (server_name)
@@ -109,7 +109,7 @@ return {
                         }
                     end,
 
-                    -- C/C++ clangd 特殊配置
+                     -- C/C++ clangd 特殊配置
                     ["clangd"] = function()
                         lspconfig.clangd.setup {
                             on_attach = on_attach,
@@ -123,7 +123,62 @@ return {
                             -- 确保在项目根目录生成 compile_commands.json 文件 (通过 CMake 等工具)
                         }
                     end,
-                }
+
+                    -- JavaScript/TypeScript vtsls 配置
+                    ["vtsls"] = function()
+                        lspconfig.vtsls.setup {
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            settings = {
+                                typescript = {
+                                    -- 启用额外的 TypeScript 功能
+                                    inlayHints = {
+                                        parameterNames = { enabled = true },
+                                        parameterTypes = { enabled = true },
+                                        variableTypes = { enabled = true },
+                                        propertyDeclarationTypes = { enabled = true },
+                                        functionLikeReturnTypes = { enabled = true },
+                                        enumMemberValues = { enabled = true },
+                                    },
+                                    -- 自动更新导入
+                                    updateImportsOnFileMove = { enabled = true },
+                                    -- 允许重命名文件时自动更新引用
+                                    rename = { enableImportExport = true },
+                                },
+                                javascript = {
+                                    inlayHints = {
+                                        parameterNames = { enabled = true },
+                                        parameterTypes = { enabled = true },
+                                        variableTypes = { enabled = true },
+                                        propertyDeclarationTypes = { enabled = true },
+                                        functionLikeReturnTypes = { enabled = true },
+                                        enumMemberValues = { enabled = true },
+                                    },
+                                },
+                                vtsls = {
+                                    -- 启用 TypeScript 项目服务
+                                    enableProjectDiagnostics = true,
+                                }
+                            },
+                        }
+                    end,
+
+                    -- ESLint 配置
+                    ["eslint"] = function()
+                        lspconfig.eslint.setup {
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            -- 自动修复
+                            on_attach = function(client, bufnr)
+                                on_attach(client, bufnr)
+                                vim.api.nvim_create_autocmd("BufWritePre", {
+                                    buffer = bufnr,
+                                    command = "EslintFixAll",
+                                })
+                            end,
+                        }
+                    end,
+                 }
             }
         end
     },

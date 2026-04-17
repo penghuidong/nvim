@@ -1,10 +1,10 @@
 return {
-    -- 语法高亮
+     -- 语法高亮
     {'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter').setup({
-                ensure_installed = { "lua", "go", "cpp", "c", "markdown", "markdown_inline" },
+                ensure_installed = { "lua", "go", "cpp", "c", "markdown", "markdown_inline", "javascript", "typescript", "tsx", "jsdoc", "json", "html", "css" },
                 highlight = { enable = true },
                 indent = { enable = true },
             })
@@ -55,7 +55,7 @@ return {
                 sections = {
                     lualine_a = {'mode'},
                     lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {'filename'}, -- 显示当前文件名
+                    lualine_c = {{'filename', path = 3}}, -- 显示绝对路径与文件名
                     lualine_x = {'encoding', 'fileformat', 'filetype'},
                     lualine_y = {'progress'},
                     lualine_z = {'location'}
