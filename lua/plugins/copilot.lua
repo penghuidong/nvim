@@ -36,6 +36,7 @@ return {
         build = "make tiktoken",
         config = function()
             require("CopilotChat").setup({
+                model = "auto",
                 window = {
                     layout = "vertical", -- 垂直分割窗口
                     width = 0.4,         -- 占屏幕 40%
