@@ -79,7 +79,7 @@ return {
 
             -- 使用 Mason 来设置 LSP 服务器
             mason_lspconfig.setup {
-                ensure_installed = { "gopls", "clangd", "lua_ls", "vtsls", "eslint" },
+                ensure_installed = { "gopls", "clangd", "lua_ls", "vtsls", "eslint", "pyright" },
                 -- 默认配置所有通过 Mason 安装的 LSP
                 handlers = {
                     function (server_name)
@@ -163,7 +163,7 @@ return {
                         }
                     end,
 
-                    -- ESLint 配置
+                     -- ESLint 配置
                     ["eslint"] = function()
                         lspconfig.eslint.setup {
                             on_attach = on_attach,
@@ -176,6 +176,23 @@ return {
                                     command = "EslintFixAll",
                                 })
                             end,
+                        }
+                    end,
+
+                    -- Python pyright 配置
+                    ["pyright"] = function()
+                        lspconfig.pyright.setup {
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            settings = {
+                                python = {
+                                    analysis = {
+                                        autoSearchPaths = true,
+                                        diagnosticMode = "workspace",
+                                        useLibraryCodeForTypes = true,
+                                    },
+                                },
+                            },
                         }
                     end,
                  }

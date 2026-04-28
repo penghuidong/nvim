@@ -4,7 +4,6 @@ vim.opt.shiftwidth = 4      -- 自动缩进宽度
 vim.opt.expandtab = true    -- 使用空格替代 Tab
 vim.opt.number = true       -- 显示行号
 vim.opt.relativenumber = false -- 关闭相对行号，只显示绝对行号
-vim.opt.mouse = 'a'         -- 启用鼠标支持
 vim.opt.splitright = true   -- 垂直分割在新窗口右侧打开
 vim.opt.splitbelow = true   -- 水平分割在新窗口下方打开
 vim.opt.encoding = 'utf-8'  -- 编码
@@ -13,7 +12,7 @@ vim.opt.undofile = true     -- 启用撤销文件
 vim.opt.ignorecase = true   -- 搜索时忽略大小写
 vim.opt.smartcase = true    -- 如果搜索包含大写字母，则开启精确匹配
 
--- 剪贴板：使用 Shift+鼠标 由终端处理选择复制
+-- 剪贴板：使用系统剪贴板
 vim.opt.clipboard = 'unnamedplus'
 
 -- 默认不折叠

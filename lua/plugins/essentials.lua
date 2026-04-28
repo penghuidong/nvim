@@ -4,7 +4,7 @@ return {
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter').setup({
-                ensure_installed = { "lua", "go", "cpp", "c", "markdown", "markdown_inline", "javascript", "typescript", "tsx", "jsdoc", "json", "html", "css" },
+                ensure_installed = { "lua", "go", "cpp", "c", "markdown", "markdown_inline", "javascript", "typescript", "tsx", "jsdoc", "json", "html", "css", "python" },
                 highlight = { enable = true },
                 indent = { enable = true },
             })

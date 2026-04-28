@@ -12,6 +12,7 @@ return {
                     typescript = { "prettier" },
                     javascriptreact = { "prettier" },
                     typescriptreact = { "prettier" },
+                    python = { "isort", "black" },
                     json = { "prettier" },
                     html = { "prettier" },
                     css = { "prettier" },
